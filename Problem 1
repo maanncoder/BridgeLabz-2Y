@@ -1,0 +1,60 @@
+import java.util.*;
+
+class FileNode {
+    String name;
+    int size;
+    boolean isFile;
+    List<FileNode> children;
+
+    // Constructor for file
+    FileNode(String name, int size) {
+        this.name = name;
+        this.size = size;
+        this.isFile = true;
+        this.children = new ArrayList<>();
+    }
+
+    // Constructor for directory
+    FileNode(String name) {
+        this.name = name;
+        this.isFile = false;
+        this.children = new ArrayList<>();
+    }
+}
+
+public class DirectorySize {
+
+    public static int getSize(FileNode node) {
+        // Base case
+        if (node.isFile) {
+            return node.size;
+        }
+
+        int total = 0;
+
+        // Recursive case
+        for (FileNode child : node.children) {
+            total += getSize(child);
+        }
+
+        return total;
+    }
+
+    public static void main(String[] args) {
+        // Creating sample structure
+        FileNode root = new FileNode("root");
+
+        FileNode file1 = new FileNode("file1", 10);
+        FileNode file2 = new FileNode("file2", 20);
+
+        FileNode subDir = new FileNode("subDir");
+        FileNode file3 = new FileNode("file3", 30);
+
+        subDir.children.add(file3);
+        root.children.add(file1);
+        root.children.add(file2);
+        root.children.add(subDir);
+
+        System.out.println("Total Size: " + getSize(root));
+    }
+}

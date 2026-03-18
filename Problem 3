@@ -1,0 +1,23 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public static int getSizeSafe(FileNode node, Set<FileNode> visited) {
+
+    if (visited.contains(node)) {
+        return 0; // avoid cycle
+    }
+
+    visited.add(node);
+
+    if (node.isFile) {
+        return node.size;
+    }
+
+    int total = 0;
+
+    for (FileNode child : node.children) {
+        total += getSizeSafe(child, visited);
+    }
+
+    return total;
+}
